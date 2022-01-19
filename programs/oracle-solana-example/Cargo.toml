@@ -16,3 +16,4 @@ default = []
 
 [dependencies]
 anchor-lang = "0.18.2"
+switchboard-aggregator = "0.1.7"
