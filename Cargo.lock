@@ -736,6 +736,8 @@ name = "oracle-solana-example"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
+ "bytemuck",
+ "solana-program",
  "switchboard-aggregator",
 ]
 

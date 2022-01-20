@@ -17,3 +17,5 @@ default = []
 [dependencies]
 anchor-lang = "0.18.2"
 switchboard-aggregator = "0.1.7"
+bytemuck = "1.7.3"
+solana-program = "1.9.4"
