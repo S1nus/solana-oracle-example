@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use switchboard_aggregator::decimal::SwitchboardDecimal;
+//use switchboard_aggregator::decimal::SwitchboardDecimal;
 use solana_program;
 //use bytemuck::Zeroable;
 
@@ -13,9 +13,12 @@ pub mod oracle_solana_example {
         Ok(())
     }
 
-    pub fn init_btc_price(ctx: Context<InitBTCPrice>) -> ProgramResult {
+    pub fn init_btc_price(ctx: Context<InitBTCPrice>, params: InitBTCPriceParams) -> ProgramResult {
         let mut btc_price_account = &mut ctx.accounts.btc_price_account.load_init()?;
-        btc_price_account.val = SwitchboardDecimal::from_f64(0f64);
+        btc_price_account.val = SwitchboardDecimal {
+            mantissa: 0,
+            scale: 1,
+        };
         Ok(())
     }
 }
@@ -33,7 +36,6 @@ pub struct InitBTCPrice<'info> {
         bump = params.btc_price_bump,
         payer = payer)]
     pub btc_price_account: AccountLoader<'info, BTCPriceAccountData>,
-    #[account(signer)]
     pub payer: AccountInfo<'info>,
     #[account(address = solana_program::system_program::ID)]
     pub system_program: AccountInfo<'info>,
@@ -59,4 +61,11 @@ pub struct UpdateBTCPrice<'info> {
 #[derive(Default)]
 pub struct BTCPriceAccountData {
     pub val: SwitchboardDecimal,
+}
+
+#[zero_copy]
+#[derive(Default, Eq, PartialEq)]
+pub struct SwitchboardDecimal {
+    pub mantissa: i128,
+    pub scale: u32,
 }
